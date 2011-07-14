@@ -1,0 +1,14 @@
+Build / install with
+
+    python setup.install
+
+
+Notes
+- Vmware does not provide a 64-bit VIX library for Windows. Must use 32-bit Python.
+- VMWARE_VIX var in setup.py should be adjusted appropriately
+
+
+TODO
+- Find VIX libs on Windows
+- Linux build
+
