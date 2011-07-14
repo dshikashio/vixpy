@@ -1,6 +1,6 @@
 Build / install with
 
-    python setup.install
+    python setup.py
 
 
 Notes
