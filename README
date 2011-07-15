@@ -1,14 +1,33 @@
 Build / install with
 
-    python setup.py
+    python setup.py build
+        
+        or (for the brave)
+
+    python setup.py install
+
+    
+ >>> import vixpy
+
+ See example.py for usage.
 
 
 Notes
 - Vmware does not provide a 64-bit VIX library for Windows. Must use 32-bit Python.
-- VMWARE_VIX var in setup.py should be adjusted appropriately
+- VMWARE_ vars in setup.py should be adjusted appropriately
 
 
 TODO
-- Find VIX libs on Windows
-- Linux build
+- Auto find VIX libs on Windows
+- Auto "set" Linux LD_LIBRARY_PATH 
+
+
+Linux Notes
+
+Need to install VIX bundle if VMWare not installed
+# sh VMware-VIX-1.10.3-368992.x86_64.bundle -x /some/install/directory
+
+Python needs to be able to find VIX library at run time
+# LD_LIBRARY_PATH=/some/install/directory/vmware-vix/lib python somescript.py
+
 

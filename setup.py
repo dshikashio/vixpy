@@ -6,6 +6,7 @@ if platform.system() == 'Windows':
     if platform.architecture()[0] == '64bit':
         print "ERROR: 64-bit Windows not available"
         sys.exit(-1)
+
     VMWARE_VIX = r'c:\Program Files (x86)\VMware\VMware VIX'
     VMWARE_INC = VMWARE_VIX
     VMWARE_LIB = VMWARE_VIX
@@ -14,11 +15,13 @@ if platform.system() == 'Windows':
                'kernel32', 'advapi32', 
                'ole32',    'oleaut32',
                'shell32']
+
 else:
-    # linux things
-    VMWARE_INC = r''
-    VMWARE_LIB = r''
-    VMWARE_BIN = r''
+    # Linux
+    VMWARE_VIX = '/opt/vmware-vix/vmware-vix/'
+    VMWARE_INC = VMWARE_VIX + 'include'
+    VMWARE_LIB = VMWARE_VIX + 'lib'
+    VMWARE_BIN = 'vixAllProducts'
     OS_LIBS = []
 
 

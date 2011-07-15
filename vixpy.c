@@ -1,6 +1,10 @@
 #include <Python.h>
 #include <vix.h>
 
+#ifndef VIX_E_SNAPSHOT_RRSUSPEND
+#define VIX_E_SNAPSHOT_RRSUSPEND 13021
+#endif
+
 struct IntConstantList {
     char *name;
     long val;
@@ -34,7 +38,7 @@ static PyObject *err_vix(VixError err)
     if (msg == NULL)
         msg = "Unknown";
     
-    return PyErr_Format(exc, "%s : (%d)", msg, VIX_ERROR_CODE(err));
+    return PyErr_Format(exc, "%s : (%d)", msg, (int)VIX_ERROR_CODE(err));
 }
 
 static PyObject *
