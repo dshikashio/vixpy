@@ -13,7 +13,8 @@ Build / install with
 
 
 Notes
-- Vmware does not provide a 64-bit VIX library for Windows. Must use 32-bit Python.
+- Developed against VIX API 1.11, Python 2.7
+- Both 64-bit and 32-bit builds on Windows and Linux should work
 - VMWARE_ vars in setup.py should be adjusted appropriately
 
 
@@ -21,6 +22,11 @@ TODO
 - Auto find VIX libs on Windows
 - Auto "set" Linux LD_LIBRARY_PATH 
 
+
+Build Notes
+
+Python 2.6 and 2.7 are built with Visual Studio 2008.  Build these bindings with
+the appropriate VS version.  The MSCRT version is what really matters.
 
 Linux Notes
 
