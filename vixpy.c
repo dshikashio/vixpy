@@ -5,6 +5,9 @@
 #define VIX_E_SNAPSHOT_RRSUSPEND 13021
 #endif
 
+// XXX - Is this a problem with my environment? Or new Vix?
+int _forceCRTManifestCUR = 0;
+
 struct IntConstantList {
     char *name;
     long val;
@@ -39,6 +42,20 @@ static PyObject *err_vix(VixError err)
         msg = "Unknown";
     
     return PyErr_Format(exc, "%s : (%d)", msg, (int)VIX_ERROR_CODE(err));
+}
+
+static PyObject *err_unsupported(void)
+{
+    PyObject *m = NULL;
+    PyObject *dict = NULL;
+    PyObject *exc = NULL;
+
+    m = PyImport_AddModule("_vixpy");
+    if (m == NULL || (dict = PyModule_GetDict(m)) == NULL)
+        return NULL;
+
+    exc = PyDict_GetItemString(dict, "VixError");
+    return PyErr_Format(exc, "Unsupported API");
 }
 
 static PyObject *
@@ -553,6 +570,8 @@ pv_VixVM_Delete(PyObject *self, PyObject *args)
 static PyObject *
 pv_VixVM_BeginRecording(PyObject *self, PyObject *args)
 {
+    return err_unsupported();
+    /*
     VixError err = VIX_OK;
     VixHandle vm = VIX_INVALID_HANDLE;
     VixHandle job = VIX_INVALID_HANDLE;
@@ -575,11 +594,14 @@ pv_VixVM_BeginRecording(PyObject *self, PyObject *args)
         return err_vix(err);
 
     Py_RETURN_NONE;
+    */
 }
 
 static PyObject *
 pv_VixVM_EndRecording(PyObject *self, PyObject *args)
 {
+    return err_unsupported();
+    /*
     VixError err = VIX_OK;
     VixHandle vm = VIX_INVALID_HANDLE;
     VixHandle job = VIX_INVALID_HANDLE;
@@ -598,11 +620,14 @@ pv_VixVM_EndRecording(PyObject *self, PyObject *args)
         return err_vix(err);
 
     Py_RETURN_NONE;
+    */
 }
 
 static PyObject *
 pv_VixVM_BeginReplay(PyObject *self, PyObject *args)
 {
+    return err_unsupported();
+    /*
     VixError err = VIX_OK;
     VixHandle vm = VIX_INVALID_HANDLE;
     VixHandle job = VIX_INVALID_HANDLE;
@@ -625,11 +650,14 @@ pv_VixVM_BeginReplay(PyObject *self, PyObject *args)
         return err_vix(err);
 
     Py_RETURN_NONE;
+    */
 }
 
 static PyObject *
 pv_VixVM_EndReplay(PyObject *self, PyObject *args)
 {
+    return err_unsupported();
+    /*
     VixError err = VIX_OK;
     VixHandle vm = VIX_INVALID_HANDLE;
     VixHandle job = VIX_INVALID_HANDLE;
@@ -648,6 +676,7 @@ pv_VixVM_EndReplay(PyObject *self, PyObject *args)
         return err_vix(err);
 
     Py_RETURN_NONE;
+    */
 }
 
 static PyObject *
@@ -2040,7 +2069,9 @@ void AddConstants(PyObject *m)
         {"VIX_E_CANNOT_START_READ_ONLY_VM", VIX_E_CANNOT_START_READ_ONLY_VM},
         {"VIX_E_VM_NOT_RUNNING", VIX_E_VM_NOT_RUNNING},
         {"VIX_E_VM_IS_RUNNING", VIX_E_VM_IS_RUNNING},
+        /*
         {"VIX_E_CANNOT_CONNECT_TO_VM", VIX_E_CANNOT_CONNECT_TO_VM},
+        */
         {"VIX_E_POWEROP_SCRIPTS_NOT_AVAILABLE", 
             VIX_E_POWEROP_SCRIPTS_NOT_AVAILABLE},
         {"VIX_E_NO_GUEST_OS_INSTALLED", VIX_E_NO_GUEST_OS_INSTALLED},
@@ -2066,10 +2097,12 @@ void AddConstants(PyObject *m)
             VIX_E_CONSOLE_GUEST_OPERATIONS_PROHIBITED},
         {"VIX_E_MUST_BE_CONSOLE_USER", VIX_E_MUST_BE_CONSOLE_USER},
         {"VIX_E_VMX_MSG_DIALOG_AND_NO_UI", VIX_E_VMX_MSG_DIALOG_AND_NO_UI},
+        /*
         {"VIX_E_NOT_ALLOWED_DURING_VM_RECORDING", 
             VIX_E_NOT_ALLOWED_DURING_VM_RECORDING},
         {"VIX_E_NOT_ALLOWED_DURING_VM_REPLAY", 
             VIX_E_NOT_ALLOWED_DURING_VM_REPLAY},
+        */
         {"VIX_E_OPERATION_NOT_ALLOWED_FOR_LOGIN_TYPE", 
             VIX_E_OPERATION_NOT_ALLOWED_FOR_LOGIN_TYPE},
         {"VIX_E_LOGIN_TYPE_NOT_SUPPORTED", VIX_E_LOGIN_TYPE_NOT_SUPPORTED},
@@ -2079,11 +2112,15 @@ void AddConstants(PyObject *m)
             VIX_E_INTERACTIVE_SESSION_NOT_PRESENT},
         {"VIX_E_INTERACTIVE_SESSION_USER_MISMATCH", 
             VIX_E_INTERACTIVE_SESSION_USER_MISMATCH},
+        /*
         {"VIX_E_UNABLE_TO_REPLAY_VM", VIX_E_UNABLE_TO_REPLAY_VM},
+        */
         {"VIX_E_CANNOT_POWER_ON_VM", VIX_E_CANNOT_POWER_ON_VM},
         {"VIX_E_NO_DISPLAY_SERVER", VIX_E_NO_DISPLAY_SERVER},
+        /*
         {"VIX_E_VM_NOT_RECORDING", VIX_E_VM_NOT_RECORDING},
         {"VIX_E_VM_NOT_REPLAYING", VIX_E_VM_NOT_REPLAYING},
+        */
         {"VIX_E_VM_NOT_FOUND", VIX_E_VM_NOT_FOUND},
         {"VIX_E_NOT_SUPPORTED_FOR_VM_VERSION", 
             VIX_E_NOT_SUPPORTED_FOR_VM_VERSION},
@@ -2242,8 +2279,10 @@ void AddConstants(PyObject *m)
         {"VIX_PROPERTY_VM_IS_RUNNING", VIX_PROPERTY_VM_IS_RUNNING},
         {"VIX_PROPERTY_VM_SUPPORTED_FEATURES", 
             VIX_PROPERTY_VM_SUPPORTED_FEATURES},
+        /*
         {"VIX_PROPERTY_VM_IS_RECORDING", VIX_PROPERTY_VM_IS_RECORDING},
         {"VIX_PROPERTY_VM_IS_REPLAYING", VIX_PROPERTY_VM_IS_REPLAYING},
+        */
         {"VIX_PROPERTY_JOB_RESULT_ERROR_CODE", 
             VIX_PROPERTY_JOB_RESULT_ERROR_CODE},
         {"VIX_PROPERTY_JOB_RESULT_VM_IN_GROUP", 
@@ -2301,8 +2340,10 @@ void AddConstants(PyObject *m)
             VIX_PROPERTY_SNAPSHOT_DESCRIPTION},
         {"VIX_PROPERTY_SNAPSHOT_POWERSTATE", 
             VIX_PROPERTY_SNAPSHOT_POWERSTATE},
+        /*
         {"VIX_PROPERTY_SNAPSHOT_IS_REPLAYABLE", 
             VIX_PROPERTY_SNAPSHOT_IS_REPLAYABLE},
+        */
         {"VIX_PROPERTY_GUEST_SHAREDFOLDERS_SHARES_PATH", 
             VIX_PROPERTY_GUEST_SHAREDFOLDERS_SHARES_PATH},
         {"VIX_PROPERTY_VM_ENCRYPTION_PASSWORD", 
@@ -2313,7 +2354,9 @@ void AddConstants(PyObject *m)
         {"VIX_EVENTTYPE_CALLBACK_SIGNALLED", VIX_EVENTTYPE_CALLBACK_SIGNALLED},
         {"VIX_FILE_ATTRIBUTES_DIRECTORY", VIX_FILE_ATTRIBUTES_DIRECTORY},
         {"VIX_FILE_ATTRIBUTES_SYMLINK", VIX_FILE_ATTRIBUTES_SYMLINK},
+        /*
         {"VIX_HOSTOPTION_USE_EVENT_PUMP", VIX_HOSTOPTION_USE_EVENT_PUMP},
+        */
         {"VIX_SERVICEPROVIDER_DEFAULT", VIX_SERVICEPROVIDER_DEFAULT},
         {"VIX_SERVICEPROVIDER_VMWARE_SERVER", 
             VIX_SERVICEPROVIDER_VMWARE_SERVER},
@@ -2327,7 +2370,9 @@ void AddConstants(PyObject *m)
         {"VIX_FIND_RUNNING_VMS", VIX_FIND_RUNNING_VMS},
         {"VIX_FIND_REGISTERED_VMS", VIX_FIND_REGISTERED_VMS},
         {"VIX_VMOPEN_NORMAL", VIX_VMOPEN_NORMAL},
+        /*
         {"VIX_PUMPEVENTOPTION_NONE", VIX_PUMPEVENTOPTION_NONE},
+        */
         {"VIX_VMPOWEROP_NORMAL", VIX_VMPOWEROP_NORMAL},
         {"VIX_VMPOWEROP_FROM_GUEST", VIX_VMPOWEROP_FROM_GUEST},
         {"VIX_VMPOWEROP_SUPPRESS_SNAPSHOT_POWERON", 
