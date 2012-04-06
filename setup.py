@@ -19,14 +19,14 @@ if platform.system() == 'Windows':
         VMWARE_BIN = 'VixAllProducts'
     VMWARE_INC = VMWARE_VIX
     VMWARE_LIB = VMWARE_VIX
-    OS_LIBS = ['ws2_32',   'user32', 
-               'kernel32', 'advapi32', 
+    OS_LIBS = ['ws2_32',   'user32',
+               'kernel32', 'advapi32',
                'ole32',    'oleaut32',
                'shell32']
 else:
     # Linux
-    VMWARE_INC = VMWARE_VIX + 'include'
-    VMWARE_LIB = VMWARE_VIX + 'lib'
+    VMWARE_INC = '/usr/include/vmware-vix'
+    VMWARE_LIB = '/usr/lib/vmware-vix'
     VMWARE_BIN = 'vixAllProducts'
     OS_LIBS = []
 
