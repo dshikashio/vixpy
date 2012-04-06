@@ -218,13 +218,17 @@ pv_VixHost_Connect(PyObject *self, PyObject *args)
     VixHandle handle = VIX_INVALID_HANDLE;
     VixError err;
     VixServiceProvider hostType = VIX_SERVICEPROVIDER_DEFAULT;
+    char *hostAddr = NULL, *hostUser = NULL, *hostPasswd = NULL;
+
     PyObject *ret = NULL;
 
-    if (!PyArg_ParseTuple(args, "i:VixHost_Connect", &hostType))
+    if (!PyArg_ParseTuple(args, "isss:VixHost_Connect", 
+			   &hostType, &hostAddr, &hostUser, &hostPasswd))
         return NULL;
 
     Py_BEGIN_ALLOW_THREADS
-    job = VixHost_Connect(VIX_API_VERSION, hostType, NULL, 0, NULL, NULL,
+    job = VixHost_Connect(VIX_API_VERSION, hostType, hostAddr, 0, 
+		    	  hostUser, hostPasswd,
                           0, VIX_INVALID_HANDLE, NULL, NULL);
 
     err = VixJob_Wait(job, VIX_PROPERTY_JOB_RESULT_HANDLE, &handle,
