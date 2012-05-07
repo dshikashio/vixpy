@@ -6,11 +6,17 @@ __all__ = ['VixHost',
            'VixError']
 
 class VixHost(object):
-    def __init__(self):
-        self._host = VixHost_Connect(VIX_SERVICEPROVIDER_VMWARE_WORKSTATION)
+    def __init__(self, prov=VIX_SERVICEPROVIDER_VMWARE_WORKSTATION,
+            host=None, user=None, passwd=None):
+        try:
+            self._host = VixHost_Connect(prov, host, user, passwd)
+        except:
+            self._host = None
+            raise
 
     def __del__(self):
-        VixHost_Disconnect(self._host)
+        if self._host:
+            VixHost_Disconnect(self._host)
 
     @property
     def handle(self):
@@ -58,7 +64,7 @@ class VixVm(object):
             option = VIX_VMPOWEROP_NORMAL
         VixVM_PowerOff(self._vm, option)
 
-    def reset(self, from_guest=False): 
+    def reset(self, from_guest=False):
         """reset(from_guest=False) -> reset VM"""
         if from_guest:
             option = VIX_VMPOWEROP_FROM_GUEST
