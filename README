@@ -13,7 +13,7 @@ Build / install with
 
 
 Notes
-- Developed against VIX API 1.11, Python 2.7
+- Developed against VIX API 1.12, Python 2.7
 - Both 64-bit and 32-bit builds on Windows and Linux should work
 - VMWARE_ vars in setup.py should be adjusted appropriately
 

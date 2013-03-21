@@ -1,10 +1,11 @@
 from _vixpy import *
 
+"""
 __all__ = ['VixHost',
            'VixVm',
            'VixSnapshot',
            'VixError']
-
+"""
 class VixHost(object):
     def __init__(self, prov=VIX_SERVICEPROVIDER_VMWARE_WORKSTATION,
             host=None, user=None, passwd=None):
