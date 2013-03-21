@@ -11,9 +11,8 @@ if platform.system() == 'Windows':
     VMWARE_INC = VMWARE_VIX
     VMWARE_LIB = VMWARE_VIX
 else:
-    VMWARE_VIX = '/opt/vmware-vix/vmware-vix/'
-    VMWARE_INC = VMWARE_VIX + 'include'
-    VMWARE_LIB = VMWARE_VIX + 'lib'
+    VMWARE_LIB = '/usr/lib/vmware-vix'
+    VMWARE_INC = '/usr/include/vmware-vix'
 
 
 if platform.system() == 'Windows':

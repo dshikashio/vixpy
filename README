@@ -23,7 +23,7 @@ TODO
 - Auto "set" Linux LD_LIBRARY_PATH 
 
 
-Build Notes
+Windows Notes
 
 Python 2.6 and 2.7 are built with Visual Studio 2008.  Build these bindings with
 the appropriate VS version.  The MSCRT version is what really matters.
@@ -31,9 +31,10 @@ the appropriate VS version.  The MSCRT version is what really matters.
 Linux Notes
 
 Need to install VIX bundle if VMWare not installed
-# sh VMware-VIX-1.10.3-368992.x86_64.bundle -x /some/install/directory
+# sh VMware-VIX-1.12.2-1031769.x86_64.bundle
 
-Python needs to be able to find VIX library at run time
-# LD_LIBRARY_PATH=/some/install/directory/vmware-vix/lib python somescript.py
+Python might need to be able to find VIX library at run time depending on
+install location
+# LD_LIBRARY_PATH=/some/other/path/vmware-vix python somescript.py
 
 
