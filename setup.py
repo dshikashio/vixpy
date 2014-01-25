@@ -10,6 +10,10 @@ if platform.system() == 'Windows':
     VMWARE_VIX = r'c:\Program Files (x86)\VMware\VMware VIX'
     VMWARE_INC = VMWARE_VIX
     VMWARE_LIB = VMWARE_VIX
+elif platform.system() == 'Darwin':
+    VMWARE_VIX = '/Applications/VMware Fusion.app/Contents/Public'
+    VMWARE_LIB = VMWARE_VIX
+    VMWARE_INC = VMWARE_VIX + '/include'
 else:
     VMWARE_LIB = '/usr/lib/vmware-vix'
     VMWARE_INC = '/usr/include/vmware-vix'

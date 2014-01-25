@@ -395,10 +395,12 @@ class VixSnapshot(object):
         return VixSnapshot_GetNumChildren(self._snap)
 
     def get_child(self, index):
-        return VixSnapshot_GetChild(self._snap, index)
+        snap = VixSnapshot_GetChild(self._snap, index)
+        return VixSnapshot(snap)
 
     def get_parent(self):
-        return VixSnapshot_GetParent(self._snap)
+        snap = VixSnapshot_GetParent(self._snap)
+        return VixSnapshot(snap)
 
     @property
     def displayname(self):

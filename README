@@ -37,4 +37,13 @@ Python might need to be able to find VIX library at run time depending on
 install location
 # LD_LIBRARY_PATH=/some/other/path/vmware-vix python somescript.py
 
+OSX Notes
+
+Necessary Vix files should be located at 
+/Applications/VMware Fusion.app/Contents/Public
+/Applications/VMware Fusion.app/Contents/Public/include
+
+Python might need to be able to find VIX library at run time
+# DYLD_LIBRARY_PATH=/Applications/VMware Fusion.app/Contents/Public/ python somescript.py
+
 
