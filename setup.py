@@ -7,7 +7,7 @@ import os
 # Set install path to VMWare VIX libraries
 #
 if platform.system() == 'Windows':
-    VMWARE_VIX = r'c:\Program Files (x86)\VMware\VMware VIX'
+    VMWARE_VIX = r'C:\Program Files (x86)\VMware\VMware VIX'
     VMWARE_INC = VMWARE_VIX
     VMWARE_LIB = VMWARE_VIX
 elif platform.system() == 'Darwin':
@@ -39,7 +39,7 @@ setup(
     version='0.1.2',
     ext_modules = [
         Extension("_vixpy",
-            sources=['vixpy.c'],
+            sources=['vixpy.cpp'],
             include_dirs = [VMWARE_INC],
             library_dirs = [VMWARE_LIB],
             libraries = [VMWARE_BIN] + OS_LIBS,

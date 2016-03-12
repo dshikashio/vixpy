@@ -319,6 +319,10 @@ class VixVm(object):
             options |= VIX_INSTALLTOOLS_MOUNT_TOOLS_INSTALLER
         VixVM_InstallTools(self._vm, options)
 
+    def clone(self, path, snapshot=None, type=VIX_CLONETYPE_FULL):
+        """clone(path, snapshot, type) -> clone virtual machine"""
+        VixVM_Clone(self._vm, snapshot.handle() if snapshot is not None else 0, type, path)
+		
     @property
     def num_vcpus(self):
         return Vix_GetProperties(self._vm, VIX_PROPERTY_VM_NUM_VCPUS)

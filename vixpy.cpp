@@ -5,8 +5,20 @@
 #define VIX_E_SNAPSHOT_RRSUSPEND 13021
 #endif
 
-// XXX - Is this a problem with my environment? Or new Vix?
-int _forceCRTManifestCUR = 0;
+
+//ty microsoft for breaking abi every VC release :)
+#if (_MSC_VER >= 1900)
+#pragma comment(lib, "legacy_stdio_definitions.lib")
+
+FILE _iob[] = {*stdin, *stdout, *stderr};
+
+extern "C" FILE * __cdecl __iob_func(void)
+{
+    return _iob;
+}
+#endif
+
+extern "C" int _forceCRTManifestCUR=0;
 
 struct IntConstantList {
     char *name;
@@ -1736,6 +1748,31 @@ pv_VixVM_InstallTools(PyObject *self, PyObject *args)
 }
 
 
+static PyObject *
+pv_VixVM_Clone(PyObject *self, PyObject *args) {
+    VixError err = VIX_OK;
+    VixHandle vm = VIX_INVALID_HANDLE;
+    VixHandle job = VIX_INVALID_HANDLE;
+    VixHandle snapshot;
+    int cloneType;
+    char *clonePath;
+
+    if (!PyArg_ParseTuple(args, "iiis:VixVM_Clone", &vm, &snapshot, &cloneType, &clonePath))
+        return NULL;
+
+    Py_BEGIN_ALLOW_THREADS
+
+    job = VixVM_Clone(vm, snapshot, cloneType, clonePath, 0, VIX_INVALID_HANDLE, NULL, NULL);
+    err = VixJob_Wait(job, VIX_PROPERTY_NONE);
+    Py_END_ALLOW_THREADS
+
+    Vix_ReleaseHandle(job);
+
+    if (err != VIX_OK)
+        return err_vix(err);
+    Py_RETURN_NONE;
+}
+
 static PyMethodDef  VixPyMethods[] = {
     {"Vix_GetErrorText", 
      (PyCFunction)pv_Vix_GetErrorText, METH_VARARGS, 
@@ -2002,14 +2039,10 @@ static PyMethodDef  VixPyMethods[] = {
      (PyCFunction)pv_VixVM_InstallTools, METH_VARARGS,
      "VixVM_InstallTools(vmHandle, options)"
     },
-    /*
     {"VixVM_Clone", 
      (PyCFunction)pv_VixVM_Clone, METH_VARARGS,
-     "VixVM_Clone(vmHandle)"
+     "VixVM_Clone(vmHandle, snapshotHandle, cloneType, clonePath)"
     },
-    */
-
-
     {NULL, NULL, 0, NULL}
 };
 
@@ -2221,7 +2254,6 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_E_TOOLS_INSTALL_INIT_FAILED),
         ConstTok(VIX_E_TOOLS_INSTALL_AUTO_NOT_SUPPORTED),
         ConstTok(VIX_E_TOOLS_INSTALL_GUEST_NOT_READY),
-        ConstTok(VIX_E_TOOLS_INSTALL_SIG_CHECK_FAILED),
         ConstTok(VIX_E_TOOLS_INSTALL_ERROR),
         ConstTok(VIX_E_TOOLS_INSTALL_ALREADY_UP_TO_DATE),
         ConstTok(VIX_E_TOOLS_INSTALL_IN_PROGRESS),
@@ -2350,29 +2382,36 @@ void AddConstants(PyObject *m)
         PyModule_AddUnsignedLongConstant(m, clist[i].name, clist[i].val);
 }
 
-PyMODINIT_FUNC init_vixpy(void)
+static struct PyModuleDef _vixpy_module_def = {
+   PyModuleDef_HEAD_INIT,
+   "_vixpy",
+   NULL,
+   -1,
+   VixPyMethods
+};
+
+PyMODINIT_FUNC PyInit__vixpy(void)
 {
     PyObject *m = NULL;
     PyObject *dict = NULL;
     PyObject *VixExc = NULL;
 
-    m = Py_InitModule("_vixpy", VixPyMethods);
+    m = PyModule_Create(&_vixpy_module_def);
     if (m == NULL)
-        goto error;
+        PyErr_SetString(PyExc_ImportError, "_vixpy: failed PyModule_Create");
 
     if ((dict = PyModule_GetDict(m)) == NULL)
-        goto error;
+        PyErr_SetString(PyExc_ImportError, "_vixpy: failed PyModule_GetDict");
 
     AddConstants(m);
-
 
     VixExc = PyErr_NewException("_vixpy.VixError", NULL, NULL);
     PyDict_SetItemString(dict, "VixError", VixExc);
     Py_XDECREF(VixExc);
-    
 
-error:
     if (PyErr_Occurred())
-        PyErr_SetString(PyExc_ImportError, "_vixpy: init failed");
+        PyErr_SetString(PyExc_ImportError, "_vixpy: some error occured during initialization");
+
+    return m;
 }
 
