@@ -13,7 +13,7 @@ Build / install with
 
 
 Notes
-- Developed against VIX API 1.12, Python 2.7
+- Developed against VIX API 1.15, Python 3.5
 - Both 64-bit and 32-bit builds on Windows and Linux should work
 - VMWARE_ vars in setup.py should be adjusted appropriately
 
@@ -25,7 +25,7 @@ TODO
 
 Windows Notes
 
-Python 2.6 and 2.7 are built with Visual Studio 2008.  Build these bindings with
+Python 3.5 are built with Visual Studio 2015.  Build these bindings with
 the appropriate VS version.  The MSCRT version is what really matters.
 
 Linux Notes
@@ -45,5 +45,4 @@ Necessary Vix files should be located at
 
 Python might need to be able to find VIX library at run time
 # DYLD_LIBRARY_PATH=/Applications/VMware Fusion.app/Contents/Public/ python somescript.py
-
 
