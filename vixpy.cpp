@@ -21,7 +21,7 @@ extern "C" FILE * __cdecl __iob_func(void)
 extern "C" int _forceCRTManifestCUR=0;
 
 struct IntConstantList {
-    char *name;
+    const char *name;
     long val;
 };
 
@@ -128,7 +128,6 @@ pv_Vix_GetProperties(PyObject *self, PyObject *args)
     VixHandle handle = VIX_INVALID_HANDLE;
     VixPropertyID property = VIX_PROPERTY_NONE;
     VixPropertyType type = VIX_PROPERTYTYPE_ANY;
-    uint64 propval = 0;
 
     if (!PyArg_ParseTuple(args, "ii:Vix_GetProperties", &handle, &property))
         return NULL;
@@ -2061,6 +2060,7 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_HANDLETYPE_SNAPSHOT),
         ConstTok(VIX_HANDLETYPE_PROPERTY_LIST),
         ConstTok(VIX_HANDLETYPE_METADATA_CONTAINER),
+
         ConstTok(VIX_OK),
         ConstTok(VIX_E_FAIL),
         ConstTok(VIX_E_OUT_OF_MEMORY),
@@ -2094,12 +2094,16 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_E_AUTHENTICATION_FAIL),
         ConstTok(VIX_E_HOST_CONNECTION_LOST),
         ConstTok(VIX_E_DUPLICATE_NAME),
+        ConstTok(VIX_E_ARGUMENT_TOO_BIG),
+
         ConstTok(VIX_E_INVALID_HANDLE),
         ConstTok(VIX_E_NOT_SUPPORTED_ON_HANDLE_TYPE),
         ConstTok(VIX_E_TOO_MANY_HANDLES),
+
         ConstTok(VIX_E_NOT_FOUND),
         ConstTok(VIX_E_TYPE_MISMATCH),
         ConstTok(VIX_E_INVALID_XML),
+
         ConstTok(VIX_E_TIMEOUT_WAITING_FOR_TOOLS),
         ConstTok(VIX_E_UNRECOGNIZED_COMMAND),
         ConstTok(VIX_E_OP_NOT_SUPPORTED_ON_GUEST),
@@ -2133,6 +2137,7 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_E_NO_DISPLAY_SERVER),
         ConstTok(VIX_E_TOO_MANY_LOGONS),
         ConstTok(VIX_E_INVALID_AUTHENTICATION_SESSION),
+
         ConstTok(VIX_E_VM_NOT_FOUND),
         ConstTok(VIX_E_NOT_SUPPORTED_FOR_VM_VERSION),
         ConstTok(VIX_E_CANNOT_READ_VM_CONFIG),
@@ -2140,15 +2145,19 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_E_VM_ALREADY_LOADED),
         ConstTok(VIX_E_VM_ALREADY_UP_TO_DATE),
         ConstTok(VIX_E_VM_UNSUPPORTED_GUEST),
+
         ConstTok(VIX_E_UNRECOGNIZED_PROPERTY),
         ConstTok(VIX_E_INVALID_PROPERTY_VALUE),
         ConstTok(VIX_E_READ_ONLY_PROPERTY),
         ConstTok(VIX_E_MISSING_REQUIRED_PROPERTY),
         ConstTok(VIX_E_INVALID_SERIALIZED_DATA),
         ConstTok(VIX_E_PROPERTY_TYPE_MISMATCH),
+
         ConstTok(VIX_E_BAD_VM_INDEX),
+
         ConstTok(VIX_E_INVALID_MESSAGE_HEADER),
         ConstTok(VIX_E_INVALID_MESSAGE_BODY),
+
         ConstTok(VIX_E_SNAPSHOT_INVAL),
         ConstTok(VIX_E_SNAPSHOT_DUMPER),
         ConstTok(VIX_E_SNAPSHOT_DISKLIB),
@@ -2170,8 +2179,9 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_E_SNAPSHOT_MEMORY_ON_INDEPENDENT_DISK),
         ConstTok(VIX_E_SNAPSHOT_MAXSNAPSHOTS),
         ConstTok(VIX_E_SNAPSHOT_MIN_FREE_SPACE),
-        ConstTok(VIX_E_SNAPSHOT_RRSUSPEND),
+        ConstTok(VIX_E_SNAPSHOT_HIERARCHY_TOODEEP),
         ConstTok(VIX_E_SNAPSHOT_NOT_REVERTABLE),
+
         ConstTok(VIX_E_HOST_DISK_INVALID_VALUE),
         ConstTok(VIX_E_HOST_DISK_SECTORSIZE),
         ConstTok(VIX_E_HOST_FILE_ERROR_EOF),
@@ -2183,6 +2193,7 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_E_HOST_TCP_CONN_LOST),
         ConstTok(VIX_E_HOST_NBD_HASHFILE_VOLUME),
         ConstTok(VIX_E_HOST_NBD_HASHFILE_INIT),
+
         ConstTok(VIX_E_DISK_INVAL),
         ConstTok(VIX_E_DISK_NOINIT),
         ConstTok(VIX_E_DISK_NOIO),
@@ -2220,6 +2231,7 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_E_DISK_CAPACITY_MISMATCH),
         ConstTok(VIX_E_DISK_PARENT_NOTALLOWED),
         ConstTok(VIX_E_DISK_ATTACH_ROOTLINK),
+
         ConstTok(VIX_E_CRYPTO_UNKNOWN_ALGORITHM),
         ConstTok(VIX_E_CRYPTO_BAD_BUFFER_SIZE),
         ConstTok(VIX_E_CRYPTO_INVALID_OPERATION),
@@ -2233,19 +2245,23 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_E_CRYPTO_LOCKED),
         ConstTok(VIX_E_CRYPTO_EMPTY),
         ConstTok(VIX_E_CRYPTO_KEYSAFE_LOCATOR),
+
         ConstTok(VIX_E_CANNOT_CONNECT_TO_HOST),
         ConstTok(VIX_E_NOT_FOR_REMOTE_HOST),
         ConstTok(VIX_E_INVALID_HOSTNAME_SPECIFICATION),
+
         ConstTok(VIX_E_SCREEN_CAPTURE_ERROR),
         ConstTok(VIX_E_SCREEN_CAPTURE_BAD_FORMAT),
         ConstTok(VIX_E_SCREEN_CAPTURE_COMPRESSION_FAIL),
         ConstTok(VIX_E_SCREEN_CAPTURE_LARGE_DATA),
+
         ConstTok(VIX_E_GUEST_VOLUMES_NOT_FROZEN),
         ConstTok(VIX_E_NOT_A_FILE),
         ConstTok(VIX_E_NOT_A_DIRECTORY),
         ConstTok(VIX_E_NO_SUCH_PROCESS),
         ConstTok(VIX_E_FILE_NAME_TOO_LONG),
         ConstTok(VIX_E_OPERATION_DISABLED),
+
         ConstTok(VIX_E_TOOLS_INSTALL_NO_IMAGE),
         ConstTok(VIX_E_TOOLS_INSTALL_IMAGE_INACCESIBLE),
         ConstTok(VIX_E_TOOLS_INSTALL_NO_DEVICE),
@@ -2257,12 +2273,79 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_E_TOOLS_INSTALL_ERROR),
         ConstTok(VIX_E_TOOLS_INSTALL_ALREADY_UP_TO_DATE),
         ConstTok(VIX_E_TOOLS_INSTALL_IN_PROGRESS),
+        ConstTok(VIX_E_TOOLS_INSTALL_IMAGE_COPY_FAILED),
+
         ConstTok(VIX_E_WRAPPER_WORKSTATION_NOT_INSTALLED),
         ConstTok(VIX_E_WRAPPER_VERSION_NOT_FOUND),
         ConstTok(VIX_E_WRAPPER_SERVICEPROVIDER_NOT_FOUND),
         ConstTok(VIX_E_WRAPPER_PLAYER_NOT_INSTALLED),
         ConstTok(VIX_E_WRAPPER_RUNTIME_NOT_INSTALLED),
         ConstTok(VIX_E_WRAPPER_MULTIPLE_SERVICEPROVIDERS),
+
+        ConstTok(VIX_E_MNTAPI_MOUNTPT_NOT_FOUND),
+        ConstTok(VIX_E_MNTAPI_MOUNTPT_IN_USE),
+        ConstTok(VIX_E_MNTAPI_DISK_NOT_FOUND),
+        ConstTok(VIX_E_MNTAPI_DISK_NOT_MOUNTED),
+        ConstTok(VIX_E_MNTAPI_DISK_IS_MOUNTED),
+        ConstTok(VIX_E_MNTAPI_DISK_NOT_SAFE),
+        ConstTok(VIX_E_MNTAPI_DISK_CANT_OPEN),
+        ConstTok(VIX_E_MNTAPI_CANT_READ_PARTS),
+        ConstTok(VIX_E_MNTAPI_UMOUNT_APP_NOT_FOUND),
+        ConstTok(VIX_E_MNTAPI_UMOUNT),
+        ConstTok(VIX_E_MNTAPI_NO_MOUNTABLE_PARTITONS),
+        ConstTok(VIX_E_MNTAPI_PARTITION_RANGE),
+        ConstTok(VIX_E_MNTAPI_PERM),
+        ConstTok(VIX_E_MNTAPI_DICT),
+        ConstTok(VIX_E_MNTAPI_DICT_LOCKED),
+        ConstTok(VIX_E_MNTAPI_OPEN_HANDLES),
+        ConstTok(VIX_E_MNTAPI_CANT_MAKE_VAR_DIR),
+        ConstTok(VIX_E_MNTAPI_NO_ROOT),
+        ConstTok(VIX_E_MNTAPI_LOOP_FAILED),
+        ConstTok(VIX_E_MNTAPI_DAEMON),
+        ConstTok(VIX_E_MNTAPI_INTERNAL),
+        ConstTok(VIX_E_MNTAPI_SYSTEM),
+        ConstTok(VIX_E_MNTAPI_NO_CONNECTION_DETAILS),
+
+        ConstTok(VIX_E_MNTAPI_INCOMPATIBLE_VERSION),
+        ConstTok(VIX_E_MNTAPI_OS_ERROR),
+        ConstTok(VIX_E_MNTAPI_DRIVE_LETTER_IN_USE),
+        ConstTok(VIX_E_MNTAPI_DRIVE_LETTER_ALREADY_ASSIGNED),
+        ConstTok(VIX_E_MNTAPI_VOLUME_NOT_MOUNTED),
+        ConstTok(VIX_E_MNTAPI_VOLUME_ALREADY_MOUNTED),
+        ConstTok(VIX_E_MNTAPI_FORMAT_FAILURE),
+        ConstTok(VIX_E_MNTAPI_NO_DRIVER),
+        ConstTok(VIX_E_MNTAPI_ALREADY_OPENED),
+        ConstTok(VIX_E_MNTAPI_ITEM_NOT_FOUND),
+        ConstTok(VIX_E_MNTAPI_UNSUPPROTED_BOOT_LOADER),
+        ConstTok(VIX_E_MNTAPI_UNSUPPROTED_OS),
+        ConstTok(VIX_E_MNTAPI_CODECONVERSION),
+        ConstTok(VIX_E_MNTAPI_REGWRITE_ERROR),
+        ConstTok(VIX_E_MNTAPI_UNSUPPORTED_FT_VOLUME),
+        ConstTok(VIX_E_MNTAPI_PARTITION_NOT_FOUND),
+        ConstTok(VIX_E_MNTAPI_PUTFILE_ERROR),
+        ConstTok(VIX_E_MNTAPI_GETFILE_ERROR),
+        ConstTok(VIX_E_MNTAPI_REG_NOT_OPENED),
+        ConstTok(VIX_E_MNTAPI_REGDELKEY_ERROR),
+        ConstTok(VIX_E_MNTAPI_CREATE_PARTITIONTABLE_ERROR),
+        ConstTok(VIX_E_MNTAPI_OPEN_FAILURE),
+        ConstTok(VIX_E_MNTAPI_VOLUME_NOT_WRITABLE),
+
+        ConstTok(VIX_ASYNC),
+        ConstTok(VIX_E_ASYNC_MIXEDMODE_UNSUPPORTED),
+
+        ConstTok(VIX_E_NET_HTTP_UNSUPPORTED_PROTOCOL),
+        ConstTok(VIX_E_NET_HTTP_URL_MALFORMAT),
+        ConstTok(VIX_E_NET_HTTP_COULDNT_RESOLVE_PROXY),
+        ConstTok(VIX_E_NET_HTTP_COULDNT_RESOLVE_HOST),
+        ConstTok(VIX_E_NET_HTTP_COULDNT_CONNECT),
+        ConstTok(VIX_E_NET_HTTP_HTTP_RETURNED_ERROR),
+        ConstTok(VIX_E_NET_HTTP_OPERATION_TIMEDOUT),
+        ConstTok(VIX_E_NET_HTTP_SSL_CONNECT_ERROR),
+        ConstTok(VIX_E_NET_HTTP_TOO_MANY_REDIRECTS),
+        ConstTok(VIX_E_NET_HTTP_TRANSFER),
+        ConstTok(VIX_E_NET_HTTP_SSL_SECURITY),
+        ConstTok(VIX_E_NET_HTTP_GENERIC),
+
         ConstTok(VIX_PROPERTYTYPE_ANY),
         ConstTok(VIX_PROPERTYTYPE_INTEGER),
         ConstTok(VIX_PROPERTYTYPE_STRING),
@@ -2270,21 +2353,29 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_PROPERTYTYPE_HANDLE),
         ConstTok(VIX_PROPERTYTYPE_INT64),
         ConstTok(VIX_PROPERTYTYPE_BLOB),
+
         ConstTok(VIX_PROPERTY_NONE),
+
         ConstTok(VIX_PROPERTY_META_DATA_CONTAINER),
+
         ConstTok(VIX_PROPERTY_HOST_HOSTTYPE),
         ConstTok(VIX_PROPERTY_HOST_API_VERSION),
+        ConstTok(VIX_PROPERTY_HOST_SOFTWARE_VERSION),
+
         ConstTok(VIX_PROPERTY_VM_NUM_VCPUS),
         ConstTok(VIX_PROPERTY_VM_VMX_PATHNAME),
         ConstTok(VIX_PROPERTY_VM_VMTEAM_PATHNAME),
         ConstTok(VIX_PROPERTY_VM_MEMORY_SIZE),
         ConstTok(VIX_PROPERTY_VM_READ_ONLY),
+        ConstTok(VIX_PROPERTY_VM_NAME),
+        ConstTok(VIX_PROPERTY_VM_GUESTOS),
         ConstTok(VIX_PROPERTY_VM_IN_VMTEAM),
         ConstTok(VIX_PROPERTY_VM_POWER_STATE),
         ConstTok(VIX_PROPERTY_VM_TOOLS_STATE),
         ConstTok(VIX_PROPERTY_VM_IS_RUNNING),
         ConstTok(VIX_PROPERTY_VM_SUPPORTED_FEATURES),
         ConstTok(VIX_PROPERTY_VM_SSL_ERROR),
+
         ConstTok(VIX_PROPERTY_JOB_RESULT_ERROR_CODE),
         ConstTok(VIX_PROPERTY_JOB_RESULT_VM_IN_GROUP),
         ConstTok(VIX_PROPERTY_JOB_RESULT_USER_MESSAGE),
@@ -2311,35 +2402,49 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_PROPERTY_JOB_RESULT_FILE_SIZE),
         ConstTok(VIX_PROPERTY_JOB_RESULT_FILE_MOD_TIME),
         ConstTok(VIX_PROPERTY_JOB_RESULT_EXTRA_ERROR_INFO),
+
         ConstTok(VIX_PROPERTY_FOUND_ITEM_LOCATION),
+
         ConstTok(VIX_PROPERTY_SNAPSHOT_DISPLAYNAME),
         ConstTok(VIX_PROPERTY_SNAPSHOT_DESCRIPTION),
         ConstTok(VIX_PROPERTY_SNAPSHOT_POWERSTATE),
+
         ConstTok(VIX_PROPERTY_GUEST_SHAREDFOLDERS_SHARES_PATH),
+
         ConstTok(VIX_PROPERTY_VM_ENCRYPTION_PASSWORD),
+
         ConstTok(VIX_EVENTTYPE_JOB_COMPLETED),
         ConstTok(VIX_EVENTTYPE_JOB_PROGRESS),
         ConstTok(VIX_EVENTTYPE_FIND_ITEM),
         ConstTok(VIX_EVENTTYPE_CALLBACK_SIGNALLED),
+
         ConstTok(VIX_FILE_ATTRIBUTES_DIRECTORY),
         ConstTok(VIX_FILE_ATTRIBUTES_SYMLINK),
+
         ConstTok(VIX_HOSTOPTION_VERIFY_SSL_CERT),
+
         ConstTok(VIX_SERVICEPROVIDER_DEFAULT),
         ConstTok(VIX_SERVICEPROVIDER_VMWARE_SERVER),
         ConstTok(VIX_SERVICEPROVIDER_VMWARE_WORKSTATION),
         ConstTok(VIX_SERVICEPROVIDER_VMWARE_PLAYER),
         ConstTok(VIX_SERVICEPROVIDER_VMWARE_VI_SERVER),
         ConstTok(VIX_SERVICEPROVIDER_VMWARE_WORKSTATION_SHARED),
+
         ConstTok(VIX_API_VERSION),
+
         ConstTok(VIX_FIND_RUNNING_VMS),
         ConstTok(VIX_FIND_REGISTERED_VMS),
+
         ConstTok(VIX_VMOPEN_NORMAL),
+
         ConstTok(VIX_VMPOWEROP_NORMAL),
         ConstTok(VIX_VMPOWEROP_FROM_GUEST),
         ConstTok(VIX_VMPOWEROP_SUPPRESS_SNAPSHOT_POWERON),
         ConstTok(VIX_VMPOWEROP_LAUNCH_GUI),
         ConstTok(VIX_VMPOWEROP_START_VM_PAUSED),
+
         ConstTok(VIX_VMDELETE_DISK_FILES),
+
         ConstTok(VIX_POWERSTATE_POWERING_OFF),
         ConstTok(VIX_POWERSTATE_POWERED_OFF),
         ConstTok(VIX_POWERSTATE_POWERING_ON),
@@ -2351,26 +2456,36 @@ void AddConstants(PyObject *m)
         ConstTok(VIX_POWERSTATE_BLOCKED_ON_MSG),
         ConstTok(VIX_POWERSTATE_PAUSED),
         ConstTok(VIX_POWERSTATE_RESUMING),
+
         ConstTok(VIX_TOOLSSTATE_UNKNOWN),
         ConstTok(VIX_TOOLSSTATE_RUNNING),
         ConstTok(VIX_TOOLSSTATE_NOT_INSTALLED),
+
         ConstTok(VIX_VM_SUPPORT_SHARED_FOLDERS),
         ConstTok(VIX_VM_SUPPORT_MULTIPLE_SNAPSHOTS),
         ConstTok(VIX_VM_SUPPORT_TOOLS_INSTALL),
         ConstTok(VIX_VM_SUPPORT_HARDWARE_UPGRADE),
+
         ConstTok(VIX_LOGIN_IN_GUEST_REQUIRE_INTERACTIVE_ENVIRONMENT),
+
         ConstTok(VIX_RUNPROGRAM_RETURN_IMMEDIATELY),
         ConstTok(VIX_RUNPROGRAM_ACTIVATE_WINDOW),
+
         ConstTok(VIX_VM_GUEST_VARIABLE),
         ConstTok(VIX_VM_CONFIG_RUNTIME_ONLY),
         ConstTok(VIX_GUEST_ENVIRONMENT_VARIABLE),
+
         ConstTok(VIX_SNAPSHOT_REMOVE_CHILDREN),
         ConstTok(VIX_SNAPSHOT_INCLUDE_MEMORY),
+
         ConstTok(VIX_SHAREDFOLDER_WRITE_ACCESS),
+
         ConstTok(VIX_CAPTURESCREENFORMAT_PNG),
         ConstTok(VIX_CAPTURESCREENFORMAT_PNG_NOCOMPRESS),
+
         ConstTok(VIX_CLONETYPE_FULL),
         ConstTok(VIX_CLONETYPE_LINKED),
+
         ConstTok(VIX_INSTALLTOOLS_MOUNT_TOOLS_INSTALLER),
         ConstTok(VIX_INSTALLTOOLS_AUTO_UPGRADE),
         ConstTok(VIX_INSTALLTOOLS_RETURN_IMMEDIATELY),

@@ -8,7 +8,7 @@ __all__ = ['VixHost',
 """
 class VixHost(object):
     def __init__(self, prov=VIX_SERVICEPROVIDER_VMWARE_WORKSTATION,
-            host=None, user=None, passwd=None):
+            host='', user='', passwd=''):
         try:
             self._host = VixHost_Connect(prov, host, user, passwd)
         except:
@@ -336,6 +336,18 @@ class VixVm(object):
         return Vix_GetProperties(self._vm, VIX_PROPERTY_VM_MEMORY_SIZE)
 
     @property
+    def read_only(self):
+        return Vix_GetProperties(self._vm, VIX_PROPERTY_VM_READ_ONLY)
+
+    @property
+    def name(self):
+        return Vix_GetProperties(self._vm, VIX_PROPERTY_VM_NAME)
+
+    @property
+    def guestos(self):
+        return Vix_GetProperties(self._vm, VIX_PROPERTY_VM_GUESTOS)
+
+    @property
     def power_state(self):
         state_desc = {VIX_POWERSTATE_POWERING_OFF   : "Powering Off",
                       VIX_POWERSTATE_POWERED_OFF    : "Powered Off",
@@ -368,14 +380,6 @@ class VixVm(object):
     @property
     def is_running(self):
         return Vix_GetProperties(self._vm, VIX_PROPERTY_VM_IS_RUNNING)
-
-    @property
-    def is_recording(self):
-        return Vix_GetProperties(self._vm, VIX_PROPERTY_VM_IS_RECORDING)
-
-    @property
-    def is_replaying(self):
-        return Vix_GetProperties(self._vm, VIX_PROPERTY_VM_IS_REPLAYING)
 
     @property
     def shares_path(self):
