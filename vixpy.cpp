@@ -2382,6 +2382,7 @@ void AddConstants(PyObject *m)
         PyModule_AddUnsignedLongConstant(m, clist[i].name, clist[i].val);
 }
 
+#ifdef PY3K
 static struct PyModuleDef _vixpy_module_def = {
    PyModuleDef_HEAD_INIT,
    "_vixpy",
@@ -2414,4 +2415,28 @@ PyMODINIT_FUNC PyInit__vixpy(void)
 
     return m;
 }
+#else
+PyMODINIT_FUNC init_vixpy(void)
+{
+    PyObject *m = NULL;
+    PyObject *dict = NULL;
+    PyObject *VixExc = NULL;
+
+    m = Py_InitModule("_vixpy", VixPyMethods);
+    if (m == NULL)
+        PyErr_SetString(PyExc_ImportError, "_vixpy: failed Py_InitModule");
+
+    if ((dict = PyModule_GetDict(m)) == NULL)
+        PyErr_SetString(PyExc_ImportError, "_vixpy: failed PyModule_GetDict");
+
+    AddConstants(m);
+
+    VixExc = PyErr_NewException("_vixpy.VixError", NULL, NULL);
+    PyDict_SetItemString(dict, "VixError", VixExc);
+    Py_XDECREF(VixExc);
+
+    if (PyErr_Occurred())
+        PyErr_SetString(PyExc_ImportError, "_vixpy: some error occured during initialization");
+}
+#endif
 
