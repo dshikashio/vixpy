@@ -36,7 +36,7 @@ else:
 
 setup(
     name='vixpy',
-    version='0.1.2',
+    version='0.1.3',
     ext_modules = [
         Extension("_vixpy",
             sources=['vixpy.cpp'],
