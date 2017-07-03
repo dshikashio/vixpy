@@ -1,16 +1,13 @@
 Build / install with
 
-    python setup.py build
-        
-        or (for the brave)
-
-    python setup.py install
-
+1. python setup.py build
+1.a OSX only
+`install_name_tool -change libvixAllProducts.dylib "/Applications/VMware Fusion.app/Contents/Public/libvixAllProducts.dylib" $(find . -name _vixpy.so)`
+2. python setup.py install
     
  >>> import vixpy
 
  See example.py for usage.
-
 
 Notes
 - Developed against VIX API 1.15, Python 3.5
@@ -44,5 +41,5 @@ Necessary Vix files should be located at
 /Applications/VMware Fusion.app/Contents/Public/include
 
 Python might need to be able to find VIX library at run time
-# DYLD_LIBRARY_PATH=/Applications/VMware Fusion.app/Contents/Public/ python somescript.py
+# DYLD_LIBRARY_PATH="/Applications/VMware Fusion.app/Contents/Public/" python somescript.py
 

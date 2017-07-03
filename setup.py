@@ -1,4 +1,4 @@
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 import platform
 import sys
 import os
@@ -18,7 +18,6 @@ else:
     VMWARE_LIB = '/usr/lib/vmware-vix'
     VMWARE_INC = '/usr/include/vmware-vix'
 
-
 if platform.system() == 'Windows':
     if platform.architecture()[0] == '64bit':
         VMWARE_BIN = 'Vix64AllProducts'
@@ -29,20 +28,21 @@ if platform.system() == 'Windows':
                'ole32',    'oleaut32',
                'shell32']
 else:
-    # Linux
+    # Linux and OSX
     VMWARE_BIN = 'vixAllProducts'
     OS_LIBS = []
 
 
 setup(
     name='vixpy',
-    version='0.1.3',
+    version='0.1.4',
     ext_modules = [
         Extension("_vixpy",
             sources=['vixpy.cpp'],
             include_dirs = [VMWARE_INC],
             library_dirs = [VMWARE_LIB],
             libraries = [VMWARE_BIN] + OS_LIBS,
+            runtime_library_dirs = [VMWARE_LIB],
             )
     ],
     py_modules=['vixpy'],
