@@ -1,45 +1,10 @@
-Build / install with
-
-1. python setup.py build
-1.a OSX only
-`install_name_tool -change libvixAllProducts.dylib "/Applications/VMware Fusion.app/Contents/Public/libvixAllProducts.dylib" $(find . -name _vixpy.so)`
-2. python setup.py install
-    
- >>> import vixpy
+Python implementation of VMWare VIX API using ctypes    
 
  See example.py for usage.
 
 Notes
-- Developed against VIX API 1.15, Python 3.5
-- Both 64-bit and 32-bit builds on Windows and Linux should work
-- VMWARE_ vars in setup.py should be adjusted appropriately
-
+- Developed against VIX API 1.15, Python 3.7.10
 
 TODO
-- Auto find VIX libs on Windows
-- Auto "set" Linux LD_LIBRARY_PATH 
-
-
-Windows Notes
-
-Python 3.5 are built with Visual Studio 2015.  Build these bindings with
-the appropriate VS version.  The MSCRT version is what really matters.
-
-Linux Notes
-
-Need to install VIX bundle if VMWare not installed
-# sh VMware-VIX-1.12.2-1031769.x86_64.bundle
-
-Python might need to be able to find VIX library at run time depending on
-install location
-# LD_LIBRARY_PATH=/some/other/path/vmware-vix python somescript.py
-
-OSX Notes
-
-Necessary Vix files should be located at 
-/Applications/VMware Fusion.app/Contents/Public
-/Applications/VMware Fusion.app/Contents/Public/include
-
-Python might need to be able to find VIX library at run time
-# DYLD_LIBRARY_PATH="/Applications/VMware Fusion.app/Contents/Public/" python somescript.py
+- Better discovery of dyn libs
 
