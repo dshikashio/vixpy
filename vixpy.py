@@ -710,6 +710,18 @@ _VixVM_SetSharedFolderState = vix.VixVM_SetSharedFolderState
 _VixVM_SetSharedFolderState.argtypes = [VixHandle, c_char_p, c_char_p, c_int, c_void_p, c_void_p]
 _VixVM_SetSharedFolderState.restype = VixHandle
 
+_VixSnapshot_GetNumChildren = vix.VixSnapshot_GetNumChildren
+_VixSnapshot_GetNumChildren.argtypes = [VixHandle, POINTER(c_int)]
+_VixSnapshot_GetNumChildren.restype = VixErrorType
+
+_VixSnapshot_GetChild = vix.VixSnapshot_GetChild
+_VixSnapshot_GetChild.argtypes = [VixHandle, c_int, POINTER(VixHandle)]
+_VixSnapshot_GetChild.restype = VixErrorType
+
+_VixSnapshot_GetParent = vix.VixSnapshot_GetParent
+_VixSnapshot_GetParent.argtypes = [VixHandle, POINTER(VixHandle)]
+_VixSnapshot_GetParent.restype = VixErrorType
+
 def Vix_GetErrorText(err):
     return _Vix_GetErrorText(err, None).decode()
 
@@ -1151,6 +1163,27 @@ def VixVM_SetSharedFolderState(handle, name, hostpath, options):
     hostpath = to_bytes(hostpath)
     job = _VixVM_SetSharedFolderState(handle, name, hostpath, options, None, None)
     VixJob_Wait(job)
+
+def VixSnapshot_GetNumChildren(handle):
+    count = c_int()
+    err = _VixSnapshot_GetNumChildren(handle, pointer(count))
+    if VIX_FAILED(err):
+        raise VixException(err)
+    return count.value
+
+def VixSnapshot_GetChild(handle, index):
+    snap = VixHandle()
+    err = _VixSnapshot_GetChild(handle, index, pointer(snap))
+    if VIX_FAILED(err):
+        raise VixException(err)
+    return snap.value
+
+def VixSnapshot_GetParent(handle):
+    snap = VixHandle()
+    err = _VixSnapshot_GetParent(handle, pointer(snap))
+    if VIX_FAILED(err):
+        raise VixException(err)
+    return snap.value
 
 class VixHost(object):
     def __init__(self, prov=VixServiceProvider.VIX_SERVICEPROVIDER_VMWARE_WORKSTATION):
