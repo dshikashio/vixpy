@@ -1,14 +1,5 @@
-
- See example.py for usage.
-
-Notes
-- Developed against VIX API 1.15, Python 3.7.10
-
-TODO
-- Better discovery of dyn libs
-
 # Vixpy
-> Python bindings for VMWare VIX API
+> Python bindings for VMWare VIX API (version 1.15)
 
 Vixpy provides helper functions on top of Python bindings for the VMWare VIX API to facilitate automated virtual machine control.
 
